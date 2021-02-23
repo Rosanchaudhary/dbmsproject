@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+    .container
+        form(action="/users/login", method="post")
+            .form-group
+                label(for='email') Email
+                input#email.form-control(type='email',name='email' placeholder='Enter Email')
+            .form-group
+                label(for='password') Password
+                input#password.form-control(type='text',name='password' placeholder='Enter Password')
+            .form-group
+                button.btn.btn-success(type="submit") Login
+        
+        a(href="/users/register") Create an account

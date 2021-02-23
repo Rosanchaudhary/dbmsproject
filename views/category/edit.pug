@@ -1,0 +1,12 @@
+extends ../layout
+
+block content
+  h1= title
+  form(action="/categories/update?_method=PUT", method="post")
+    each category in categories
+        .form-group
+            label(for='name') Name
+            input#title.form-control(type='name',name='name' placeholder='Enter Name',value=`${category.name}`)
+        .form-group
+            input#postId(type="hidden",name="categoryId",value=`${category.category_id}`)
+            button.btn.btn-success(type="submit") Update

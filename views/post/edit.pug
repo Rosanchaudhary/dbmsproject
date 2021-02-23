@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+  h1= title
+  form(action="/posts/update?_method=PUT", method="post" enctype="multipart/form-data")
+    each post in posts
+        .form-group
+            label(for='title') Title
+            input#title.form-control(type='title',name='title',placeholder='Enter Title',value=`${post.title}`)
+        .form-group
+            label(for='description') Description
+            textarea#description.form-control(name='description',rows='3') #{post.description}
+        .form-group
+            img(src=`../../images/${post.image}`, alt="image",height="400px",width="400px")
+        .form-group
+            label(for="image") Image
+            input#image.form-control(type="file", name="image")
+        .form-group
+            input#postId(type="hidden",name="postId",value=`${post.post_id}`)
+            button.btn.btn-success(type="submit") Update

@@ -1,0 +1,11 @@
+extends ../layout
+
+block content
+  h1= title
+  form(action="/categories/create", method="post")
+    .form-group
+        label(for='name') Name
+        input#name.form-control(type='name',name='name' placeholder='Enter Name')
+    .form-group
+        button.btn.btn-success(type="submit") Create
+

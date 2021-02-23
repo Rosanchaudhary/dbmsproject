@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  header
+    .container.my-5
+      .row
+        each post,i in posts
+          .col-md-3
+            .product-top.card
+              a(href=`/posts/show/${post.post_id}`)
+                img(src=`images/${post.image}`,height='200px',width='100%')
+                .text-center.cardTitle #{post.title}
+              i.fa.fa-heart 100

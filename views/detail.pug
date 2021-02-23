@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    .container
+        .row
+            each post in posts
+                .col-md-6
+                    .title #{post.title}
+
+                .col-md-6
+                    img(src=`../../images/${post.image}`,height='400px',width='100%')
+                .detail #{post.description}

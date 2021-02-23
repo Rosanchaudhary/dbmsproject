@@ -1,0 +1,24 @@
+extends ../layout
+
+block content
+  h1= title
+  .container
+    table.table
+      thead
+        tr
+          th(scope='col') id
+          th(scope='col') name
+      tbody
+        a.btn.btn-success(href='categories/create') Create Category
+        each category,i in categories 
+          tr
+            td #{category.category_id}
+            td #{category.name}
+            td
+              form(action=`categories/delete/${category.category_id}?_method=DELETE`,method='POST')
+                button.btn.btn-danger Delete
+              a.btn.btn-info(href=`categories/edit/${category.category_id}`) Edit
+              
+            
+              
+    

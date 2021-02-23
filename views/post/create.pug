@@ -1,0 +1,22 @@
+extends ../layout
+
+block content
+  h1= title
+  form(action="/posts/create", method="post" enctype="multipart/form-data")
+    .form-group
+        label(for='title') Title
+        input#title.form-control(type='title',name='title' placeholder='Enter Title')
+    .form-group
+        label(for='description') Description
+        textarea#description.form-control(name='description',rows='3')
+    .form-group
+        label(for="image") Image
+        input#image.form-control(type="file", name="image")
+    .form-group
+        label(for='category') Choose a category:
+        select#category(name='category')
+            each category in categories
+                option(value=`${category.category_id}`) #{category.name}
+    .form-group
+        button.btn.btn-success(type="submit") Post
+

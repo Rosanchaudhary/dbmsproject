@@ -1,0 +1,28 @@
+extends ../layout
+
+block content
+  h1= title
+  .container
+    a.btn.btn-success(href='posts/create') Create Post
+    table.table
+      thead
+        tr
+          th(scope='col') title
+          th(scope='col') Category
+          th(scope='col') image
+          
+      tbody
+        each post,i in posts 
+          tr
+            td #{post.title}
+            td #{post.name}
+            td 
+              img(src=`images/${post.image}`,height='200px',width='200px')
+            td
+              form(action=`posts/delete/${post.post_id}?_method=DELETE`,method='POST')
+                button.btn.btn-danger Delete
+              a.btn.btn-info(href=`posts/edit/${post.post_id}`) Edit
+              
+            
+              
+    
