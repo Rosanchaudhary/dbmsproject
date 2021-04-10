@@ -13,33 +13,24 @@ exports.setup = function(options, seedLink) {
   type = dbm.dataType;
   seed = seedLink;
 };
-
 exports.up = function(db,callback) {
-  db.createTable('post',{
-    post_id:{
+  db.createTable('comment',{
+    comment_id:{
       type:'int',
       primaryKey:true,
       autoIncrement:true
       
     },
-    title:{
+    name:{
       type:'string',
       length:40
     },
-    image:{
-      type:'string',
-      lenght:50
-    },
-    description:{
-      type:'text',
-      lenght:90000
-    },
-    category_id:{
+    post_id:{
       type:'int',
       allowNull:false,
       references:{
-        model:'category',
-        key:'category_id'
+        model:'post',
+        key:'post_id'
       }
     },
     user_id:{
@@ -57,7 +48,7 @@ exports.up = function(db,callback) {
 };
 
 exports.down = function(db,callback) {
-  db.dropTable('post',callback);
+  db.dropTable('comment',callback);
 };
 
 exports._meta = {

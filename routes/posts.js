@@ -19,8 +19,9 @@ var mysql = require('mysql');
 var con = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "password",
-    database: "blogdb"
+    password: "zap",
+    database: "blogdb",
+    port:"3307",
   });
   con.connect((err) => {
     if(err) throw err;
@@ -28,8 +29,9 @@ var con = mysql.createConnection({
   });
   
   router.get('/',auth,(req,res)=>{
-    console.log(req.user);
-    let showQuery = "SELECT post.post_id,post.title,post.image,category.name FROM post INNER JOIN category ON post.category_id = category.category_id";
+    console.log(req.user._id);
+    let userId = req.user._id;
+    let showQuery = "SELECT post.post_id,post.title,post.image,category.name FROM post INNER JOIN category ON post.category_id = category.category_id WHERE post.user_id ="+ userId +" ";
     con.query(showQuery,(err,results)=>{
       if(err) throw err;
       // res.send(JSON.stringify(results[0].title));
@@ -51,8 +53,8 @@ var con = mysql.createConnection({
       
     })
   });
-  router.post('/create', upload.single('image'),(req,res)=> {
-    
+  router.post('/create',auth, upload.single('image'),(req,res)=> {
+    let userId = req.user._id;
     let title = req.body.title;
     let image = req.file.filename;
     let description = req.body.description;
@@ -60,7 +62,7 @@ var con = mysql.createConnection({
     
 
   
-    let insertQuery = "INSERT INTO `post` (title, image, description,category_id) VALUES ('"+ title + "', '" + image + "', '" + description + "', '" + categoryId + "')";
+    let insertQuery = "INSERT INTO `post` (title, image, description,category_id,user_id) VALUES ('"+ title + "', '" + image + "', '" + description + "', '" + categoryId + "', '" + userId + "')";
     
     con.query(insertQuery,(err,result)=>{
       if(err) throw err;
@@ -70,7 +72,13 @@ var con = mysql.createConnection({
   });
   router.get('/show/:id',(req,res)=>{
     let postId = req.params.id;
-    let showQuery = `SELECT * FROM post WHERE post.post_id = ${postId}`;
+    let showQuery = `SELECT post.post_id,post.title,post.image,post.description,
+      post.category_id,post.user_id,comment.name,user.username 
+      FROM post LEFT JOIN comment 
+      ON post.post_id = comment.post_id 
+      LEFT JOIN user
+      ON comment.user_id = user.user_id
+      WHERE post.post_id = ${postId}`;
     con.query(showQuery,(err,results)=>{
       if(err) throw err;
       console.log(results);
@@ -111,6 +119,20 @@ var con = mysql.createConnection({
       res.redirect('/posts');
      
     })
+  });
+
+  router.post('/search',(req,res)=>{
+    let search = req.body.search;
+    console.log(search);
+    let selectQuery = `SELECT post.image,post.title,post.post_id FROM post WHERE post.title LIKE '${search}%' LIMIT 10`;
+    //let selectQuery = `SELECT * FROM post WHERE title LIKE '${search}%' LIMIT 10`;
+    con.query(selectQuery,(err,result)=>{
+      console.log(result);
+      if(err) throw err;
+      res.render('search',{
+        posts:result
+      });
+    });
   });
 
 

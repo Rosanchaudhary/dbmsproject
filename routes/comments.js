@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
+const auth = require('../middleware/auth');
 
 var con = mysql.createConnection({
     host: "localhost",
@@ -26,6 +27,19 @@ router.get('/',(req,res)=>{
   })
   
 });
+router.post('/',auth,(req,res)=> {
+    let userId = req.user._id;
+    let name = req.body.comment;
+    let postId = req.body.postId;
+    let insertQuery = "INSERT INTO `comment` (name, post_id, user_id) VALUES ('"+ name + "', '" + postId + "', '" + userId + "')";
+    
+    con.query(insertQuery,(err,result)=>{
+      if(err) throw err;
+      res.redirect('back');
+      
+    })
+  });
+  
 
 
 

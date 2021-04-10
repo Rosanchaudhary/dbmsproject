@@ -6,7 +6,7 @@ module.exports = function (req,res,next) {
     //get the token from header if present
     const token = req.cookies["x-auth-token"] || req.headers["authorization"];
     //if token not found return response without going to next middleware
-    if(!token) return res.status(401).redirect("Access denied.No token provided");
+    if(!token) return res.status(401).redirect('users');
    
     try{
         console.log("this is token:"+token);

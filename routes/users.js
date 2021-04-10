@@ -8,8 +8,9 @@ var mysql = require('mysql');
 var con = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "password",
-    database: "blogdb"
+    password: "zap",
+    database: "blogdb",
+    port:"3307",
   });
   con.connect((err) => {
     if(err) throw err;
